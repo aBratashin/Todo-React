@@ -63,6 +63,22 @@ app.post('/login', (req, res) => {
 	})
 })
 
+app.post('/add_todo', (req, res) => {
+	const sql = 'INSERT INTO todos (`name`, `description`, `category`, `author`) VALUES (?)'
+
+	const values = [
+		req.body.name,
+		req.body.description,
+		req.body.category,
+		req.body.author
+	]
+
+	db.query(sql, [values], (err, data) => {
+		if (err) return res.json({ Error: 'Ошибка при добавлении задачи!' })
+		return res.json({ Status: 'Success' })
+	})
+})
+
 app.listen(3001, () => {
 	console.log('Подключено!')
 })
