@@ -36,14 +36,14 @@ const Login = () => {
 
 	return (
 		<div className="bg-gray-900 w-full h-screen flex flex-col items-center justify-center">
-			<div className='flex items-center justify-center gap-4 mb-4'>
-				<div className=' flex items-center justify-center rounded-full bg-white p-2'>
+			<div className="flex items-center justify-center gap-4 mb-4">
+				<div className=" flex items-center justify-center rounded-full bg-white p-2">
 					<img src="./favicon.svg" alt="" width={50} height={50} />
 				</div>
-				<h1 className='font-semibold text-3xl lg:text-4xl py-8 text-green-400'>Todo List</h1>
+				<h1 className="font-semibold text-3xl lg:text-4xl py-8 text-green-400">Todo List</h1>
 			</div>
 			<form
-				className="border-2 rounded-2xl py-4 px-8 mx-2 text-white flex flex-col items-center justify-center max-w-xl lg:w-1/2"
+				className="bg-gray-800 border-2 rounded-2xl py-4 px-8 mx-2 text-white flex flex-col items-center justify-center max-w-xl lg:w-1/2"
 				onSubmit={handleSubmit(loginUser)}>
 				<h2 className="font-semibold text-3xl lg:text-4xl py-8">Авторизация</h2>
 				<div className="py-2 w-full">
@@ -57,7 +57,7 @@ const Login = () => {
 							required: 'Поле обязательно для заполнения!',
 							minLength: {
 								value: 4,
-								message: 'Минимальная длина имени 4 символа!'
+								message: 'Минимальная длина почты 4 символа!'
 							},
 							pattern: {
 								value: EMAIL_REGEXP,
@@ -78,8 +78,8 @@ const Login = () => {
 						{...register('password', {
 							required: 'Поле обязательно для заполнения!',
 							minLength: {
-								value: 4,
-								message: 'Минимальная длина имени 4 символа!'
+								value: 8,
+								message: 'Минимальная длина пароля 8 символов!'
 							}
 						})}
 					/>
@@ -90,7 +90,8 @@ const Login = () => {
 					<button
 						className="focus:ring-4 focus:outline-none font-semibold rounded-lg w-full text-center bg-blue-600 hover:bg-blue-700 focus:ring-blue-800 mb-8 py-2">Войти
 					</button>
-					<div className='text-lg'>Нет аккаунта? <Link to="/register" className="hover:underline text-blue-500">Зарегистрироваться</Link>
+					<div className="text-lg">Нет аккаунта? <Link to="/register"
+																											 className="hover:underline text-blue-500">Зарегистрироваться</Link>
 					</div>
 				</div>
 			</form>

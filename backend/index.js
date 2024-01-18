@@ -17,20 +17,31 @@ const db = mysql.createConnection({
 })
 
 app.post('/register', (req, res) => {
-	const sql = 'INSERT INTO users (`name`, `email`, `password`) VALUES (?)'
+	const checkUserSql = 'SELECT * FROM users WHERE email = ?'
+	const insertUserSql = 'INSERT INTO users (`name`, `email`, `password`) VALUES (?)'
 
-	bcrypt.hash(req.body.password.toString(), salt, (err, hash) => {
-		if (err) return res.json({ Error: 'Ошибка при хэшировании пароля!' })
+	db.query(checkUserSql, [req.body.email], (err, existingUser) => {
+		if (existingUser.length > 0) {
+			return res.json({ Error: 'Пользователь с такой почтой уже существует!' })
+		}
 
-		const values = [
-			req.body.name,
-			req.body.email,
-			hash
-		]
+		bcrypt.hash(req.body.password.toString(), salt, (hashErr, hash) => {
+			if (hashErr) {
+				return res.json({ Error: 'Ошибка при хэшировании пароля!' })
+			}
 
-		db.query(sql, [values], (err, result) => {
-			if (err) return res.json({ Error: 'Ошибка при регистрации пользователя!' })
-			return res.json({ Status: 'Success' })
+			const values = [
+				req.body.name,
+				req.body.email,
+				hash
+			]
+
+			db.query(insertUserSql, [values], (insertErr, result) => {
+				if (insertErr) {
+					return res.json({ Error: 'Ошибка при регистрации пользователя!' })
+				}
+				return res.json({ Status: 'Success' })
+			})
 		})
 	})
 })
@@ -43,7 +54,7 @@ app.post('/login', (req, res) => {
 
 		if (data.length > 0) {
 			bcrypt.compare(req.body.password.toString(), data[0].password, (error, response) => {
-				if (error) return res.json({ Error: 'Неправильный пароль!' })
+				if (!response) return res.json({ Error: 'Неправильный пароль!' })
 				if (response) return res.json({ Status: 'Success' })
 			})
 		} else {

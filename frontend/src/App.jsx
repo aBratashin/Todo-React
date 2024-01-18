@@ -5,6 +5,7 @@ import Register from './pages/register/Register.jsx'
 import Login from './pages/login/Login.jsx'
 import { AuthProvider } from './hoc/AuthProvider.jsx'
 import RequireAuth from './hoc/RequireAuth.jsx'
+import RequireLogout from './hoc/RequireLogout.jsx'
 
 function App() {
 	return (
@@ -12,9 +13,8 @@ function App() {
 			<BrowserRouter>
 				<Routes>
 					<Route path="/" element={<RequireAuth><Home /></RequireAuth>} />
-					{/*<Route path="/" element={<Home />} />*/}
-					<Route path="/register" element={<Register />} />
-					<Route path="/login" element={<Login />} />
+					<Route path="/register" element={<RequireLogout><Register /></RequireLogout>} />
+					<Route path="/login" element={<RequireLogout><Login /></RequireLogout>} />
 				</Routes>
 			</BrowserRouter>
 		</AuthProvider>
