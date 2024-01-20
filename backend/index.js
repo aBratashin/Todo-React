@@ -79,6 +79,84 @@ app.post('/add_todo', (req, res) => {
 	})
 })
 
+app.get('/get_todos', (req, res) => {
+	const sql = 'SELECT * FROM todos'
+
+	db.query(sql, (err, data) => {
+		if (err) return res.json({ Error: 'Ошибка при получении задач!' })
+		return res.json(data)
+	})
+})
+
+app.delete('/delete_todo', (req, res) => {
+	const sql = 'DELETE FROM todos WHERE id = ?'
+
+	const values = [
+		req.body.id
+	]
+
+	db.query(sql, [values], (err, data) => {
+		if (err) return res.json({ Error: 'Ошибка при удалении задач!' })
+		return res.json({ Status: 'Success' })
+	})
+})
+
+app.post('/completed_todo', (req, res) => {
+	const sql = 'INSERT INTO completed_todos (`id`, `name`, `description`, `category`, `author`) VALUES (?)'
+
+	const values = [
+		req.body.id,
+		req.body.name,
+		req.body.description,
+		req.body.category,
+		req.body.author
+	]
+
+	db.query(sql, [values], (err, data) => {
+		if (err) return res.json({ Error: 'Ошибка при выполнении задачи!' })
+		return res.json({ Status: 'Success' })
+	})
+})
+
+app.get('/get_completed_todos', (req, res) => {
+	const sql = 'SELECT * FROM completed_todos'
+
+	db.query(sql, (err, data) => {
+		if (err) return res.json({ Error: 'Ошибка при получении выполненных задач!' })
+		return res.json(data)
+	})
+})
+
+app.delete('/delete_completed_todo', (req, res) => {
+	const sql = 'DELETE FROM completed_todos WHERE id = ?'
+
+	const values = [
+		req.body.id
+	]
+
+	db.query(sql, [values], (err, data) => {
+		if (err) return res.json({ Error: 'Ошибка при удалении задач!' })
+		return res.json({ Status: 'Success' })
+	})
+})
+
+app.post('/common_todo', (req, res) => {
+	const sql = 'INSERT INTO todos (`id`, `name`, `description`, `category`, `author`) VALUES (?)'
+
+	const values = [
+		req.body.id,
+		req.body.name,
+		req.body.description,
+		req.body.category,
+		req.body.author
+	]
+
+	db.query(sql, [values], (err, data) => {
+		if (err) return res.json({ Error: 'Ошибка при выполнении задачи!' })
+		return res.json({ Status: 'Success' })
+	})
+})
+
 app.listen(3001, () => {
 	console.log('Подключено!')
 })
