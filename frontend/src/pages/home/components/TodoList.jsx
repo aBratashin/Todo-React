@@ -92,7 +92,7 @@ const TodoList = ({ handleUpdate, editTodo, editCompletedTodo }) => {
 						className="border rounded-lg flex-col gap-4 w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 flex focus:ring-blue-500 focus:border-blue-500 mb-2"
 						key={todo.id}
 					>
-						<div className="flex items-center justify-between">
+						<div className="flex items-center justify-between flex-col lg:flex-row">
 							<div className="flex gap-4 items-center">
 								<PiNotepadBold color={'#fde047'} size={30} />
 								<h3 className="font-bold">{todo.name}</h3>
@@ -107,18 +107,18 @@ const TodoList = ({ handleUpdate, editTodo, editCompletedTodo }) => {
 							</div>
 						</div>
 						<div className="text-justify break-words">{todo.description}</div>
-						<div className="flex justify-between">
+						<div className="flex justify-between flex-col lg:flex-row">
 							<div>Категория: {todo.category}</div>
 							<div>Автор: {todo.author}</div>
 						</div>
 					</div>
 				))
 			) : (
-				<h3 className="font-bold text-red-400 my-2">Список задач пуст!</h3>
+				<h3 className="font-bold text-red-400 my-2 text-center">Список задач пуст!</h3>
 			)}
 
 			{completedTodos.length > 0 && (
-				<h2 className="font-semibold text-3xl lg:text-4xl py-8 text-center text-red-400">Выполнено</h2>
+				<h2 className="font-semibold text-3xl lg:text-4xl py-8 text-center">Выполнено</h2>
 			)}
 			{completedTodos.length ? (
 				completedTodos.map(todo => (
@@ -126,7 +126,7 @@ const TodoList = ({ handleUpdate, editTodo, editCompletedTodo }) => {
 						className="border rounded-lg flex-col gap-4 w-full p-2.5 bg-gray-900 border-gray-600 placeholder-gray-400 flex focus:ring-blue-500 focus:border-blue-500 mb-2"
 						key={todo.id}
 					>
-						<div className="flex items-center justify-between">
+						<div className="flex items-center justify-between flex-col lg:flex-row">
 							<div className="flex gap-4 items-center">
 								<PiNotepadBold color={'#fde047'} size={30} />
 								<h3 className="font-bold">{todo.name}</h3>
@@ -141,14 +141,14 @@ const TodoList = ({ handleUpdate, editTodo, editCompletedTodo }) => {
 							</div>
 						</div>
 						<div className="text-justify break-words">{todo.description}</div>
-						<div className="flex justify-between">
+						<div className="flex justify-between flex-col lg:flex-row">
 							<div>Категория: {todo.category}</div>
 							<div>Автор: {todo.author}</div>
 						</div>
 					</div>
 				))
 			) : (
-				<h3 className="font-bold text-red-400 my-2">Список выполненных задач пуст!</h3>
+				<h3 className="font-bold text-red-400 my-2 text-center">Список выполненных задач пуст!</h3>
 			)}
 		</div>
 	)
