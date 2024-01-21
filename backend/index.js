@@ -157,6 +157,64 @@ app.post('/common_todo', (req, res) => {
 	})
 })
 
+app.post('/get_todo', (req, res) => {
+	const sql = 'SELECT * FROM todos WHERE id = ?'
+
+	const values = [
+		req.body.id
+	]
+
+	db.query(sql, [values], (err, data) => {
+		if (err) return res.json({ Error: 'Ошибка при получении задачи!' })
+		return res.json(data)
+	})
+})
+
+app.post('/get_completed_todo', (req, res) => {
+	const sql = 'SELECT * FROM todos WHERE id = ?'
+
+	const values = [
+		req.body.id
+	]
+
+	db.query(sql, [values], (err, data) => {
+		if (err) return res.json({ Error: 'Ошибка при получении выполненной задачи!' })
+		return res.json(data)
+	})
+})
+
+app.post('/update_todo', (req, res) => {
+	const sql = 'UPDATE todos SET name = ?, description = ?, category = ? WHERE id = ?'
+
+	const values = [
+		req.body.name,
+		req.body.description,
+		req.body.category,
+		req.body.id
+	]
+
+	db.query(sql, values, (err, data) => {
+		if (err) return res.json({ Error: 'Ошибка при обновлении задачи!' })
+		return res.json({ Status: 'Success' })
+	})
+})
+
+app.post('/update_completed_todo', (req, res) => {
+	const sql = 'UPDATE completed_todos SET name = ?, description = ?, category = ? WHERE id = ?'
+
+	const values = [
+		req.body.name,
+		req.body.description,
+		req.body.category,
+		req.body.id
+	]
+
+	db.query(sql, values, (err, data) => {
+		if (err) return res.json({ Error: 'Ошибка при обновлении задачи!' })
+		return res.json({ Status: 'Success' })
+	})
+})
+
 app.listen(3001, () => {
 	console.log('Подключено!')
 })

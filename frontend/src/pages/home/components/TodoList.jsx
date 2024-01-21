@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { PiNotepadBold } from 'react-icons/pi'
-import { RiDeleteBinLine } from 'react-icons/ri'
+import { RiDeleteBinLine, RiEdit2Line } from 'react-icons/ri'
 import { IoMdCheckmarkCircleOutline } from 'react-icons/io'
 import { MdOutlineCancel } from 'react-icons/md'
 import axios from 'axios'
 import { useAuth } from '../../../hook/useAuth.js'
 
-const TodoList = ({ handleUpdate }) => {
+const TodoList = ({ handleUpdate, editTodo, editCompletedTodo }) => {
 	const [todos, setTodos] = useState([])
 	const [completedTodos, setCompletedTodos] = useState([])
 
@@ -72,12 +72,14 @@ const TodoList = ({ handleUpdate }) => {
 					key={todo.id}>
 					<div className="flex items-center justify-between">
 						<div className="flex gap-4 items-center">
-							<PiNotepadBold color={'#90EE90'} size={30} />
+							<PiNotepadBold color={'#fde047'} size={30} />
 							<h3 className="font-bold">{todo.name}</h3>
 						</div>
 						<div className="flex items-center gap-4">
 							<IoMdCheckmarkCircleOutline onClick={() => completedTodo(todo)} color={'#90EE90'} size={30}
 																					className="cursor-pointer" title="Выполнить задачу" />
+							<RiEdit2Line onClick={() => editTodo(todo.id)} color={'#60a5fa'} size={30}
+													 className="cursor-pointer" title="Редактировать задачу" />
 							<RiDeleteBinLine onClick={() => deleteTodo(todo.id)} color={'#F08080'} size={30}
 															 className="cursor-pointer" title="Удалить задачу" />
 						</div>
@@ -92,19 +94,22 @@ const TodoList = ({ handleUpdate }) => {
 				</div>
 			) : <h3 className="font-bold text-red-400">Список задач пуст!</h3>}
 
-			{completedTodos.length > 0 && <h2 className="font-semibold text-3xl lg:text-4xl py-8 text-center">Выполнено</h2>}
+			{completedTodos.length > 0 &&
+				<h2 className="font-semibold text-3xl lg:text-4xl py-8 text-center text-red-400">Выполнено</h2>}
 			{completedTodos.length ? completedTodos.map(todo =>
 				<div
 					className="border rounded-lg flex-col gap-4 w-full p-2.5 bg-gray-900 border-gray-600 placeholder-gray-400 flex focus:ring-blue-500 focus:border-blue-500 mb-2"
 					key={todo.id}>
 					<div className="flex items-center justify-between">
 						<div className="flex gap-4 items-center">
-							<PiNotepadBold color={'#90EE90'} size={30} />
+							<PiNotepadBold color={'#fde047'} size={30} />
 							<h3 className="font-bold">{todo.name}</h3>
 						</div>
 						<div className="flex items-center gap-4">
 							<MdOutlineCancel onClick={() => commonTodo(todo)} color={'#90EE90'} size={30}
 															 className="cursor-pointer" title="Отменить выполнение задачи" />
+							<RiEdit2Line onClick={() => editCompletedTodo(todo.id)} color={'#60a5fa'} size={30}
+													 className="cursor-pointer" title="Редактировать выполненную задачу" />
 							<RiDeleteBinLine onClick={() => deleteCompletedTodo(todo.id)} color={'#F08080'} size={30}
 															 className="cursor-pointer" title="Удалить выполненную задачу" />
 						</div>
