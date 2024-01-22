@@ -216,6 +216,7 @@ app.post('/update_completed_todo', (req, res) => {
 })
 
 app.post('/add_category', (req, res) => {
+	console.log(req.body)
 	const sql = 'INSERT INTO category (`value`) VALUES (?)'
 
 	const values = [

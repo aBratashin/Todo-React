@@ -13,7 +13,7 @@ const Header = () => {
 				<div className="flex items-center justify-center rounded-full bg-white p-2">
 					<img src="./favicon.svg" alt="" width={50} height={50} />
 				</div>
-				<h1 className="font-semibold text-4xl text-green-400">Todo List</h1>
+				<h1 className="font-semibold text-4xl text-green-400">Task Management</h1>
 			</div>
 			<div className="flex gap-4 font-medium">
 				<div>{user}</div>

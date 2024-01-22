@@ -10,7 +10,7 @@ const CategoryList = ({ categoryOptions, handleUpdate }) => {
 
 	const addCategory = async (data) => {
 		try {
-			return await axios.post('http://localhost:3001/delete_category', { value: data.name })
+			return await axios.post('http://localhost:3001/add_category', { value: data.name })
 		} catch (error) {
 			console.error('Ошибка при добавлении категории', error)
 		} finally {
@@ -20,7 +20,6 @@ const CategoryList = ({ categoryOptions, handleUpdate }) => {
 	}
 
 	const deleteCategory = async (id) => {
-		console.log(id)
 		try {
 			return await axios.delete('http://localhost:3001/delete_category', { data: { id } })
 		} catch (error) {
