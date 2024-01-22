@@ -21,7 +21,7 @@ const TodoList = ({ handleUpdate, editTodo, editCompletedTodo }) => {
 				const filteredData = response.data.filter(data => data.author === user)
 				setTodos(filteredData)
 			} catch (error) {
-				console.error('Error fetching todos:', error)
+				console.error('Ошибка получения задач', error)
 			} finally {
 				setLoading(false)
 			}
@@ -34,7 +34,7 @@ const TodoList = ({ handleUpdate, editTodo, editCompletedTodo }) => {
 				const filteredCompletedData = response.data.filter(data => data.author === user)
 				setCompletedTodos(filteredCompletedData)
 			} catch (error) {
-				console.error('Error fetching completed todos:', error)
+				console.error('Ошибка получения выполненных задач', error)
 			} finally {
 				setLoading(false)
 			}
@@ -84,9 +84,7 @@ const TodoList = ({ handleUpdate, editTodo, editCompletedTodo }) => {
 		<div
 			className="bg-gray-800 border-2 rounded-2xl py-4 px-8 text-white flex flex-col items-center justify-center min-w-xl max-w-2xl lg:w-1/2 overflow-auto">
 			<h2 className="font-semibold text-3xl lg:text-4xl py-8 text-center">Список задач</h2>
-			{loading ? (
-				<div>Loading...</div>
-			) : todos.length ? (
+			{todos.length ? (
 				todos.map(todo => (
 					<div
 						className="border rounded-lg flex-col gap-4 w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 flex focus:ring-blue-500 focus:border-blue-500 mb-2"

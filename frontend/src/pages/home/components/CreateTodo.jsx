@@ -99,7 +99,7 @@ const CreateTodo = ({ handleUpdate, isEditable, todoData, setIsEditable, categor
 								})}
 								className="border rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 mb-2">
 					<option defaultValue value="">{isEditable ? 'Измените категорию' : 'Выберите категорию'}</option>
-					{categoryOptions.map(option => <option key={option.id} value={option.value}>{option.text}</option>)}
+					{categoryOptions.map(option => <option key={option.id} value={option.value}>{option.value}</option>)}
 				</select>
 				<div
 					className="text-red-400 max-w-2xl min-h-6 flex items-center justify-center text-center">

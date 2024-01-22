@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import CreateTodo from './CreateTodo.jsx'
 import TodoList from './TodoList.jsx'
 import CategoryList from './CategoryList.jsx'
@@ -8,18 +8,24 @@ const Main = () => {
 	const [updateData, setUpdateData] = useState(false)
 	const [todoData, setTodoData] = useState([])
 	const [isEditable, setIsEditable] = useState(JSON.parse(localStorage.getItem('isEdit'))?.isEdit || false)
-	const [categoryOptions, setCategoryOption] = useState([
-		{ id: 1, value: 'Спорт', text: 'Спорт' },
-		{ id: 2, value: 'Здоровье', text: 'Здоровье' },
-		{ id: 3, value: 'Еда', text: 'Еда' },
-		{ id: 4, value: 'Путешествия', text: 'Путешествия' }
-	])
+	const [categoryOptions, setCategoryOption] = useState([])
 
-	console.log(categoryOptions)
-	
 	const handleUpdate = () => {
 		setUpdateData(prev => !prev)
 	}
+
+	useEffect(() => {
+		const getCategory = async () => {
+			try {
+				const response = await axios.get('http://localhost:3001/get_category')
+				setCategoryOption(response.data)
+			} catch (error) {
+				console.error('Ошибка при получении категории', error)
+			}
+		}
+
+		getCategory()
+	}, [updateData])
 
 	const checkIsEdit = (id) => {
 		if (id === JSON.parse(localStorage.getItem('isEdit'))?.id) {
@@ -51,7 +57,7 @@ const Main = () => {
 			<CreateTodo handleUpdate={handleUpdate} todoData={todoData} isEditable={isEditable}
 									setIsEditable={setIsEditable} categoryOptions={categoryOptions} />
 			<TodoList handleUpdate={handleUpdate} editTodo={editTodo} editCompletedTodo={editCompletedTodo} />
-			<CategoryList setCategoryOption={setCategoryOption}  />
+			<CategoryList categoryOptions={categoryOptions} handleUpdate={handleUpdate} />
 		</main>
 	)
 }

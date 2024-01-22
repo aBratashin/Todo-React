@@ -215,6 +215,41 @@ app.post('/update_completed_todo', (req, res) => {
 	})
 })
 
+app.post('/add_category', (req, res) => {
+	const sql = 'INSERT INTO category (`value`) VALUES (?)'
+
+	const values = [
+		req.body.value
+	]
+
+	db.query(sql, [values], (err, data) => {
+		if (err) return res.json({ Error: 'Ошибка при добавлении категории!' })
+		return res.json({ Status: 'Success' })
+	})
+})
+
+app.get('/get_category', (req, res) => {
+	const sql = 'SELECT * FROM category'
+
+	db.query(sql, (err, data) => {
+		if (err) return res.json({ Error: 'Ошибка при получении категорий!' })
+		return res.json(data)
+	})
+})
+
+app.delete('/delete_category', (req, res) => {
+	const sql = 'DELETE FROM category WHERE id = ?'
+
+	const values = [
+		req.body.id
+	]
+
+	db.query(sql, [values], (err, data) => {
+		if (err) return res.json({ Error: 'Ошибка при удалении категории!' })
+		return res.json({ Status: 'Success' })
+	})
+})
+
 app.listen(3001, () => {
 	console.log('Подключено!')
 })
