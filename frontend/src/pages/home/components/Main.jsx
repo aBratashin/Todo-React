@@ -56,7 +56,7 @@ const Main = () => {
 			className="text-white bg-gray-900 h-max flex-1 items-center flex justify-between px-8 py-20 my-20 flex-col gap-12 lg:flex-row lg:py-0 lg:items-start">
 			<CreateTodo handleUpdate={handleUpdate} todoData={todoData} isEditable={isEditable}
 									setIsEditable={setIsEditable} categoryOptions={categoryOptions} />
-			<TodoList handleUpdate={handleUpdate} editTodo={editTodo} editCompletedTodo={editCompletedTodo} />
+			<TodoList handleUpdate={handleUpdate} editTodo={editTodo} editCompletedTodo={editCompletedTodo} categoryOptions={categoryOptions} />
 			<CategoryList categoryOptions={categoryOptions} handleUpdate={handleUpdate} />
 		</main>
 	)

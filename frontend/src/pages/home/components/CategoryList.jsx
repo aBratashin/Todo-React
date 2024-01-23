@@ -19,9 +19,10 @@ const CategoryList = ({ categoryOptions, handleUpdate }) => {
 		}
 	}
 
-	const deleteCategory = async (id) => {
+	const deleteCategory = async (id, value) => {
 		try {
-			return await axios.delete('http://localhost:3001/delete_category', { data: { id } })
+			await axios.post('http://localhost:3001/delete_tasks_in_category', { category: { value } })
+			await axios.delete('http://localhost:3001/delete_category', { data: { id } })
 		} catch (error) {
 			console.error('Ошибка при удалении категории', error)
 		} finally {
@@ -56,7 +57,7 @@ const CategoryList = ({ categoryOptions, handleUpdate }) => {
 				{categoryOptions.length ? <ul className="w-1/2 mx-auto">
 					{categoryOptions.map((category, index) => <div key={category.id} className="flex justify-between">
 						<li><strong>{index + 1})</strong> {category.value}</li>
-						<TiDeleteOutline onClick={() => deleteCategory(category.id)} color={'#F08080'} size={30}
+						<TiDeleteOutline onClick={() => deleteCategory(category.id, category.value)} color={'#F08080'} size={30}
 														 className="cursor-pointer" title="Удалить категорию" />
 					</div>)}
 				</ul> : <h3 className="font-bold text-red-400 my-2 text-center">Список категорий пуст!</h3>}

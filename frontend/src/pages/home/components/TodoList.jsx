@@ -6,10 +6,17 @@ import { MdOutlineCancel } from 'react-icons/md'
 import axios from 'axios'
 import { useAuth } from '../../../hook/useAuth.js'
 
-const TodoList = ({ handleUpdate, editTodo, editCompletedTodo }) => {
+const TodoList = ({ handleUpdate, editTodo, editCompletedTodo, categoryOptions }) => {
 	const [todos, setTodos] = useState([])
 	const [completedTodos, setCompletedTodos] = useState([])
 	const [loading, setLoading] = useState(false)
+	const [selectedSort, setSelectedSort] = useState('')
+	const [selectedFilter, setSelectedFilter] = useState('')
+	const [sortOptions, setSortOptions] = useState([
+		{ name: 'По названию', value: 'name' },
+		{ name: 'По описанию', value: 'description' },
+		{ name: 'По категории', value: 'category' }
+	])
 
 	const { user } = useAuth()
 
@@ -80,10 +87,56 @@ const TodoList = ({ handleUpdate, editTodo, editCompletedTodo }) => {
 		}
 	}
 
+	const sortPosts = async (sort) => {
+		setSelectedSort(sort)
+
+		if (sort !== '') {
+			setTodos(prev => [...prev].sort((a, b) => a[sort].localeCompare(b[sort])))
+			setCompletedTodos(prev => [...prev].sort((a, b) => a[sort].localeCompare(b[sort])))
+		} else {
+			handleUpdate()
+		}
+	}
+
+	const filterPosts = (filter) => {
+		setSelectedFilter(filter);
+
+		if (filter !== '') {
+			setTodos((prev) => prev.filter((todo) => todo.category === filter));
+			setCompletedTodos((prev) => prev.filter((todo) => todo.category === filter));
+		} else {
+			handleUpdate();
+		}
+	};
+
 	return (
 		<div
 			className="bg-gray-800 border-2 rounded-2xl py-4 px-8 text-white flex flex-col items-center justify-center min-w-xl max-w-2xl lg:w-1/2 overflow-auto">
 			<h2 className="font-semibold text-3xl lg:text-4xl py-8 text-center">Список задач</h2>
+			<div className="py-2 mb-4 w-full flex gap-4 flex-col">
+				<label htmlFor="sort" className="block mb-2 font-semibold cursor-pointer">Сортировать по: </label>
+				<select
+					id="sort"
+					className="border rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 mb-2"
+					onChange={(e) => sortPosts(e.target.value)}
+					value={selectedSort}
+				>
+					<option value="" defaultValue>Выберите вариант сортировки</option>
+					{sortOptions.map(option => <option key={option.name} value={option.value}>{option.name}</option>)}
+				</select>
+			</div>
+			<div className="py-2 mb-4 w-full flex gap-4 flex-col">
+				<label htmlFor="filter" className="block mb-2 font-semibold cursor-pointer">фильтровать по: </label>
+				<select
+					id="filter"
+					className="border rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 mb-2"
+					value={selectedFilter}
+					onChange={(e) => filterPosts(e.target.value)}
+				>
+					<option value="" defaultValue>Выберите вариант фильтрации</option>
+					{categoryOptions.map(filter => <option key={filter.id} value={filter.value}>{filter.value}</option>)}
+				</select>
+			</div>
 			{todos.length ? (
 				todos.map(todo => (
 					<div

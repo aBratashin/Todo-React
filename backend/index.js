@@ -216,7 +216,6 @@ app.post('/update_completed_todo', (req, res) => {
 })
 
 app.post('/add_category', (req, res) => {
-	console.log(req.body)
 	const sql = 'INSERT INTO category (`value`) VALUES (?)'
 
 	const values = [
@@ -248,6 +247,23 @@ app.delete('/delete_category', (req, res) => {
 	db.query(sql, [values], (err, data) => {
 		if (err) return res.json({ Error: 'Ошибка при удалении категории!' })
 		return res.json({ Status: 'Success' })
+	})
+})
+
+app.post('/delete_tasks_in_category', (req, res) => {
+	const sqlTodos = 'DELETE FROM todos WHERE category = ?'
+	const sqlCompleted = 'DELETE FROM completed_todos WHERE category = ?'
+
+	const values = [
+		req.body.category.value
+	]
+
+	db.query(sqlTodos, values, (err, data) => {
+		if (err) return res.json({ Error: 'Ошибка при удалении задач по категории!' })
+		db.query(sqlCompleted, values, (err, data) => {
+			if (err) return res.json({ Error: 'Ошибка при удалении выполненных задач по категории!' })
+			return res.json({ Status: 'Success' })
+		})
 	})
 })
 
